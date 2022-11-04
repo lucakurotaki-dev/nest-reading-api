@@ -1,8 +1,10 @@
 import {
   BadRequestException,
+  Inject,
   Injectable,
   InternalServerErrorException,
 } from '@nestjs/common';
+import { Repository } from '../global/constants/repositories';
 import { IActivateAccountRequest } from './dto/activate-account.request';
 import { ICreateUserRequest } from './dto/create-user.request';
 import { IDeleteUserRequest } from './dto/delete-user.request';
@@ -14,7 +16,10 @@ import { IUserRepository } from './repositories/user.repository';
 
 @Injectable()
 export class UserService {
-  constructor(private userRepository: IUserRepository) {}
+  constructor(
+    @Inject(Repository.USER_REPOSITORY)
+    private userRepository: IUserRepository,
+  ) {}
 
   public async allUsers(): Promise<User[]> {
     return await this.userRepository.all();
