@@ -33,8 +33,8 @@ export class FakeUserRepository implements IUserRepository {
     return this.users.find((user) => email == user.email);
   }
 
-  public async activateAccount(id: string): Promise<User> {
-    const user = this.users.find((user) => id == user.id);
+  public async activateAccount(email: string): Promise<User> {
+    const user = this.users.find((user) => email == user.email);
 
     user.isActive = true;
 
@@ -50,6 +50,8 @@ export class FakeUserRepository implements IUserRepository {
   }
 
   public async create(input: User): Promise<User> {
+    input.id = Math.floor(Math.random() * 10000000).toString();
+
     this.users.push(input);
 
     return input;

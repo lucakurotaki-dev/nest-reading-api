@@ -36,19 +36,19 @@ export class UserController {
     return await this.userService.createUser(input);
   }
 
-  @Put()
+  @Put('activate')
   public async activateAccount(
     @Body() input: IActivateAccountInput,
   ): Promise<User> {
     return await this.userService.activateAccount(input);
   }
 
-  @Put()
+  @Put('update-phone')
   public async updatePhone(@Body() input: IUpdatePhoneInput): Promise<User> {
     return await this.userService.updatePhone(input);
   }
 
-  @Put()
+  @Put('update')
   public async updateUser(@Body() input: IUpdateUserInput): Promise<User> {
     return await this.userService.updateUser(input);
   }
