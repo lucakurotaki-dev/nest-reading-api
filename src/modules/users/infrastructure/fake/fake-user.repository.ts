@@ -50,8 +50,6 @@ export class FakeUserRepository implements IUserRepository {
   }
 
   public async create(input: User): Promise<User> {
-    input.id = Math.floor(Math.random() * 10000000).toString();
-
     this.users.push(input);
 
     return input;

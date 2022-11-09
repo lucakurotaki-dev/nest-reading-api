@@ -33,7 +33,11 @@ export class UserController {
 
   @Post()
   public async createUser(@Body() input: ICreateUserInput): Promise<User> {
-    return await this.userService.createUser(input);
+    const id = Math.floor(Math.random() * 10000000).toString();
+
+    const data: User = { id, ...input };
+
+    return await this.userService.createUser(data);
   }
 
   @Put('activate')
