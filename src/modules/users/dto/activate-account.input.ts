@@ -1,3 +1,3 @@
 export interface IActivateAccountInput {
-  email: string;
+  id: string;
 }

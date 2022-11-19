@@ -54,7 +54,7 @@ export class UserService {
   }
 
   public async activateAccount(data: IActivateAccountRequest): Promise<User> {
-    const user = await this.userRepository.activateAccount(data.email);
+    const user = await this.userRepository.activateAccount(data.id);
 
     return user;
   }

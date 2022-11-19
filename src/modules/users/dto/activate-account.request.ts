@@ -1,3 +1,3 @@
 export interface IActivateAccountRequest {
-  email: string;
+  id: string;
 }

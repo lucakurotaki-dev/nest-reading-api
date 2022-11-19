@@ -1,6 +1,6 @@
 import { Module } from '@nestjs/common';
 import { Repository } from '../global/constants/repositories';
-import { FakeUserRepository } from './infrastructure/fake/fake-user.repository';
+import { PrismaUserRepository } from './infrastructure/prisma/prisma-user.repository';
 import { UserController } from './user.controller';
 import { UserService } from './user.service';
 
@@ -8,7 +8,7 @@ import { UserService } from './user.service';
   controllers: [UserController],
   providers: [
     UserService,
-    { provide: Repository.USER_REPOSITORY, useClass: FakeUserRepository },
+    { provide: Repository.USER_REPOSITORY, useClass: PrismaUserRepository },
   ],
 })
 export class UserModule {}

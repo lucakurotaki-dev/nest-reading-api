@@ -33,8 +33,8 @@ export class FakeUserRepository implements IUserRepository {
     return this.users.find((user) => email == user.email);
   }
 
-  public async activateAccount(email: string): Promise<User> {
-    const user = this.users.find((user) => email == user.email);
+  public async activateAccount(id: string): Promise<User> {
+    const user = this.users.find((user) => id == user.id);
 
     user.isActive = true;
 
