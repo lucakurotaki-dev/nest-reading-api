@@ -1,8 +1,8 @@
-export interface IUpdateUserInput {
+import { Field, InputType, PartialType } from '@nestjs/graphql';
+import { ICreateUserInput } from './create-user.input';
+
+@InputType()
+export class IUpdateUserInput extends PartialType(ICreateUserInput) {
+  @Field(() => String)
   id: string;
-  name: string;
-  email: string;
-  phone: string;
-  password: string;
-  isActive: boolean;
 }

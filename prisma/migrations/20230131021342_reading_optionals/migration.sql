@@ -1,0 +1,4 @@
+-- AlterTable
+ALTER TABLE "readings" ALTER COLUMN "title" DROP NOT NULL,
+ALTER COLUMN "subtitle" DROP NOT NULL,
+ALTER COLUMN "created_at" DROP NOT NULL;

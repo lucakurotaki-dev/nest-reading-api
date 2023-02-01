@@ -5,7 +5,7 @@ import {
   InternalServerErrorException,
 } from '@nestjs/common';
 import { Repository } from '../global/constants/repositories';
-import { IActivateAccountRequest } from './dto/activate-account.request';
+import { IActivateUserRequest } from './dto/activate-user.request';
 import { ICreateUserRequest } from './dto/create-user.request';
 import { IDeleteUserRequest } from './dto/delete-user.request';
 import { IFindUserRequest } from './dto/find-user.request';
@@ -53,8 +53,8 @@ export class UserService {
     return user;
   }
 
-  public async activateAccount(data: IActivateAccountRequest): Promise<User> {
-    const user = await this.userRepository.activateAccount(data.id);
+  public async activateUser(data: IActivateUserRequest): Promise<User> {
+    const user = await this.userRepository.activateUser(data.id);
 
     return user;
   }

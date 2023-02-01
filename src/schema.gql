@@ -1,0 +1,143 @@
+# ------------------------------------------------------
+# THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
+# ------------------------------------------------------
+
+type User {
+  id: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime!
+  name: String!
+  email: String!
+  phone: String!
+  isActive: Boolean
+  readings: [Reading!]!
+}
+
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+type Reading {
+  id: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime!
+  user: User!
+  title: String!
+  subtitle: String!
+  tags: String!
+  status: Status
+  currentPage: Int
+}
+
+enum Status {
+  INPROGRESS
+  PAUSED
+  COMPLETED
+}
+
+input userInput {
+  id: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime!
+  name: String!
+  email: String!
+  phone: String!
+  isActive: Boolean
+  readings: [readingInput!]!
+}
+
+input readingInput {
+  id: String!
+  createdAt: DateTime!
+  updatedAt: DateTime!
+  deletedAt: DateTime!
+  user: userInput!
+  title: String!
+  subtitle: String!
+  tags: String!
+  status: Status
+  currentPage: Int
+}
+
+type Query {
+  findAllUsers: [User!]!
+  findUserById(input: IFindUserInput!): User!
+  findAllReadings: [Reading!]!
+  findReadingById(input: IFindReadingInput!): Reading!
+}
+
+input IFindUserInput {
+  id: String!
+}
+
+input IFindReadingInput {
+  id: String!
+}
+
+type Mutation {
+  createUser(input: ICreateUserInput!): User!
+  activateUser(input: IActivateUserInput!): User!
+  updatePhone(input: IUpdatePhoneInput!): User!
+  updateUser(input: IUpdateUserInput!): User!
+  deleteUser(input: IDeleteUserInput!): Boolean!
+  createReading(input: ICreateReadingInput!): Reading!
+  updateReading(input: IUpdateReadingInput!): Reading!
+  deleteReading(input: IDeleteReadingInput!): Boolean!
+}
+
+input ICreateUserInput {
+  name: String!
+  email: String!
+  phone: String
+  password: String!
+  isActive: Boolean
+}
+
+input IActivateUserInput {
+  id: String!
+}
+
+input IUpdatePhoneInput {
+  email: String!
+  phone: String!
+}
+
+input IUpdateUserInput {
+  name: String
+  email: String
+  phone: String
+  password: String
+  isActive: Boolean
+  id: String!
+}
+
+input IDeleteUserInput {
+  id: String!
+}
+
+input ICreateReadingInput {
+  userId: String
+  title: String!
+  subtitle: String!
+  tags: String
+  status: Status
+  currentPage: Int
+}
+
+input IUpdateReadingInput {
+  userId: String
+  title: String
+  subtitle: String
+  tags: String
+  status: Status
+  currentPage: Int
+  id: String!
+}
+
+input IDeleteReadingInput {
+  id: String!
+}

@@ -1,7 +1,7 @@
 import { Field, InputType } from '@nestjs/graphql';
 
 @InputType()
-export class IFindUserInput {
+export class IFindReadingInput {
   @Field(() => String)
   id: string;
 }

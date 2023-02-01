@@ -14,7 +14,7 @@ model User {
   id String @id @default(dbgenerated("gen_random_uuid()"))
   name String
   email String @unique
-  phone String @unique
+  phone String? @unique
   password String
   readings Reading[] 
   isActive Boolean @default(false) @map("is_active")
@@ -28,13 +28,13 @@ model User {
 
 model Reading {
   id String @id @default(dbgenerated("gen_random_uuid()"))
-  user User @relation(fields: [userId], references: [id])
-  userId String @map("user_id")
+  user User? @relation(fields: [userId], references: [id])
+  userId String? @map("user_id")
   title String
   subtitle String
-  tags String
+  tags String?
   status String? @default("IN PROGRESS")
-  currentPage Int @default(0) @map("current_page")
+  currentPage Int? @default(0) @map("current_page")
 
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime? @map("updated_at")

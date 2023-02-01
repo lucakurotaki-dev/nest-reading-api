@@ -3,8 +3,6 @@ import { Repository } from '../global/constants/repositories';
 import { ICreateReadingRequest } from './dto/create-reading.request';
 import { IDeleteReadingRequest } from './dto/delete-reading.request';
 import { IFindReadingRequest } from './dto/find-reading.request';
-import { ISetPageRequest } from './dto/set-page.request';
-import { ISetStatusRequest } from './dto/set-status.request';
 import { IUpdateReadingRequest } from './dto/update-reading.request';
 import { Reading } from './entities/reading.entity';
 import { IReadingRepository } from './repositories/reading.repository';
@@ -46,24 +44,6 @@ export class ReadingService {
     if (!reading) {
       throw new BadRequestException('A leitura não foi alterada corretamente.');
     }
-
-    return reading;
-  }
-
-  public async setPage(data: ISetPageRequest): Promise<Reading> {
-    const reading = await this.redingRepository.setPage(
-      data.readingId,
-      data.page,
-    );
-
-    return reading;
-  }
-
-  public async setStatus(data: ISetStatusRequest): Promise<Reading> {
-    const reading = await this.redingRepository.setStatus(
-      data.readingId,
-      data.status,
-    );
 
     return reading;
   }

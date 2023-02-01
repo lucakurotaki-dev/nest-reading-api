@@ -1,11 +1,8 @@
-import { Status } from '../enums/status.enum';
+import { Field, InputType, PartialType } from '@nestjs/graphql';
+import { ICreateReadingInput } from './create-reading.input';
 
-export interface IUpdateReadingInput {
+@InputType()
+export class IUpdateReadingInput extends PartialType(ICreateReadingInput) {
+  @Field(() => String)
   id: string;
-  userId: string;
-  title: string;
-  subtitle: string;
-  tags: string;
-  status?: Status;
-  currentPage?: number;
 }

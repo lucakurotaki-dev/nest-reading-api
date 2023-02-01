@@ -4,6 +4,6 @@ import { User } from '../entities/user.entity';
 export interface IUserRepository extends ICrudRepository<User> {
   all(): Promise<User[]>;
   findByEmail(email: string): Promise<User | null>;
-  activateAccount(id: string): Promise<User>;
+  activateUser(id: string): Promise<User>;
   updatePhone(email: string, phone: string): Promise<User>;
 }
