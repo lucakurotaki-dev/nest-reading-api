@@ -3,11 +3,13 @@ import {
   Inject,
   Injectable,
   InternalServerErrorException,
+  NotFoundException,
 } from '@nestjs/common';
 import { Repository } from '../global/constants/repositories';
 import { IActivateUserRequest } from './dto/activate-user.request';
 import { ICreateUserRequest } from './dto/create-user.request';
 import { IDeleteUserRequest } from './dto/delete-user.request';
+import { IFindUserByEmailRequest } from './dto/find-user-by-email.request';
 import { IFindUserRequest } from './dto/find-user.request';
 import { IUpdatePhoneRequest } from './dto/update-phone.request';
 import { IUpdateUserRequest } from './dto/update-user.request';
@@ -25,11 +27,21 @@ export class UserService {
     return await this.userRepository.all();
   }
 
+  public async findUserByEmail(data: IFindUserByEmailRequest): Promise<User> {
+    const user = await this.userRepository.findByEmail(data.email);
+
+    if (!user) {
+      throw new BadRequestException('Usuário não encontrado.');
+    }
+
+    return user;
+  }
+
   public async findUserById(data: IFindUserRequest): Promise<User> {
     const user = await this.userRepository.findById(data.id);
 
     if (!user) {
-      throw new BadRequestException('Usuário não encontrado.');
+      throw new NotFoundException('Usuário não encontrado.');
     }
 
     return user;
