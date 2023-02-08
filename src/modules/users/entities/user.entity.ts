@@ -20,6 +20,12 @@ export class User extends BaseEntity {
   @Field(() => Boolean, { nullable: true })
   isActive?: boolean;
 
+  @HideField()
+  resetPassword: string;
+
+  @HideField()
+  refreshToken: string;
+
   @Field(() => [Reading])
   readings: Reading[];
 

@@ -2,7 +2,7 @@ import { User } from 'src/modules/users/entities/user.entity';
 
 export interface IJWTToken {
   generateAccessToken(user: User): Promise<string>;
-  generateRefreshToken(user: User): Promise<User>;
+  generateRefreshToken(user: User): Promise<string>;
   generateTokenAsync(
     payload: Record<string, unknown>,
     options?: Record<string, unknown>,

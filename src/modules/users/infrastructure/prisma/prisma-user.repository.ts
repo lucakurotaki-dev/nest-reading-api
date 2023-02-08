@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { PrismaService } from 'src/providers/PrismaService/prisma.service';
 import { ICreateUserRequest } from '../../dto/create-user.request';
+import { UpdateUserPasswordInput } from '../../dto/update-user-password.input';
 import { IUpdateUserRequest } from '../../dto/update-user.request';
 import { User } from '../../entities/user.entity';
 import { IUserRepository } from '../../repositories/user.repository';
@@ -74,5 +75,60 @@ export class PrismaUserRepository implements IUserRepository {
     await this.prismaService.user.delete({ where: { id } });
 
     return true;
+  }
+
+  async updateRefreshTokenById(
+    id: string,
+    refreshToken: string,
+  ): Promise<boolean> {
+    await this.prismaService.user.update({
+      where: { id },
+      data: { refreshToken },
+    });
+
+    return true;
+  }
+
+  async updateRecoveryPasswordTokenByEmail(
+    email: string,
+    token: string,
+  ): Promise<void> {
+    await this.prismaService.user.update({
+      where: { email },
+      data: {
+        recoveryPasswordToken: token,
+      },
+    });
+  }
+
+  async findByRecoveryPasswordTokenAndEmail(
+    recoveryPasswordToken: string,
+    email: string,
+  ): Promise<User> {
+    const user = await this.prismaService.user.findMany({
+      where: { recoveryPasswordToken, email },
+    });
+
+    return user[0] ? User.fromPrismaModel(user) : null;
+  }
+
+  async updatePasswordByEmail({
+    email,
+    password,
+  }: UpdateUserPasswordInput): Promise<void> {
+    await this.prismaService.user.update({
+      where: { email },
+      data: {
+        password,
+      },
+    });
+  }
+  async deleteRecoveryPasswordTokenByEmail(email: string): Promise<void> {
+    await this.prismaService.user.update({
+      where: { email },
+      data: {
+        recoveryPasswordToken: null,
+      },
+    });
   }
 }

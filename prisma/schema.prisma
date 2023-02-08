@@ -18,6 +18,8 @@ model User {
   password String
   readings Reading[] 
   isActive Boolean @default(false) @map("is_active")
+  recoveryPasswordToken String? @unique @map("recovery_password_token")
+  refreshToken String? @unique @map("refresh_token")
   
   createdAt DateTime @default(now()) @map("created_at")
   updatedAt DateTime? @map("updated_at")
