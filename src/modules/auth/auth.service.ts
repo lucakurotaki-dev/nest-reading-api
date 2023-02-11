@@ -14,8 +14,8 @@ import { LoginResponse } from './response/login.response';
 import { compareSync } from 'bcrypt';
 import { IRefreshTokensRequest } from './request/refresh-tokens.request';
 import { IRequestRecoveryPasswordRequest } from './request/request-recovery-password';
-import { IVerifyRecoveryPasswordTokenInput } from './input/verifyCodeMobile.input';
 import { IChangePasswordWithRecoveryTokenInput } from './input/changePasswordMobile.input';
+import { IVerifyRecoveryPasswordTokenInput } from './input/verify-recovery-password-token.input';
 
 @Injectable()
 export class AuthService {
