@@ -1,5 +1,6 @@
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
 import { GraphQLModule } from '@nestjs/graphql';
 import { join } from 'path';
 import { GlobalModule } from './modules/global/global.module';
@@ -8,6 +9,7 @@ import { UserModule } from './modules/users/user.module';
 
 @Module({
   imports: [
+    ConfigModule.forRoot({}),
     GlobalModule,
     UserModule,
     ReadingModule,
