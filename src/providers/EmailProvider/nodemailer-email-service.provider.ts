@@ -16,7 +16,7 @@ export class NodeMailerEmailService implements IEmailService {
     token,
   }: ISendRecoveryPasswordEmailDTO) {
     const tranport = nodemailer.createTransport(
-      this.configService.get<IEmailConfig>('email').smtp as object,
+      this.configService.get<IEmailConfig>('email').smtp,
     );
 
     const message = {

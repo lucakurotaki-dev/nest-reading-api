@@ -5,4 +5,5 @@ export interface IUpdateUserRequest {
   phone?: string;
   password?: string;
   isActive?: boolean;
+  currentUserId: string;
 }

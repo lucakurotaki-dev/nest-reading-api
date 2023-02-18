@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  Injectable,
   InternalServerErrorException,
   UnauthorizedException,
 } from '@nestjs/common';
@@ -9,6 +10,7 @@ import { IAuthConfig } from 'src/configurations/authConfig';
 import { User } from 'src/modules/users/entities/user.entity';
 import { IJWTToken } from './jwt-token.model';
 
+@Injectable()
 export class NestJWTToken implements IJWTToken {
   constructor(
     private readonly jwtService: JwtService,

@@ -3,9 +3,6 @@ import { Status } from '../enums/status.enum';
 
 @InputType()
 export class ICreateReadingInput {
-  @Field(() => String, { nullable: true })
-  userId?: string;
-
   @Field(() => String)
   title: string;
 

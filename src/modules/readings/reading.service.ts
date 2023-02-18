@@ -1,5 +1,11 @@
-import { BadRequestException, Inject, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Inject,
+  Injectable,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { Repository } from '../global/constants/repositories';
+import { IUserRepository } from '../users/repositories/user.repository';
 import { ICreateReadingRequest } from './dto/create-reading.request';
 import { IDeleteReadingRequest } from './dto/delete-reading.request';
 import { IFindReadingRequest } from './dto/find-reading.request';
@@ -12,6 +18,8 @@ export class ReadingService {
   constructor(
     @Inject(Repository.READING_REPOSITORY)
     private redingRepository: IReadingRepository,
+    @Inject(Repository.USER_REPOSITORY)
+    private readonly userRepository: IUserRepository,
   ) {}
 
   public async allReadings(): Promise<Reading[]> {
@@ -29,6 +37,12 @@ export class ReadingService {
   }
 
   public async createReading(data: ICreateReadingRequest): Promise<Reading> {
+    const currentUser = await this.userRepository.findById(data.userId);
+
+    if (!currentUser) {
+      throw new UnauthorizedException('Usuário não encontrado.');
+    }
+
     const reading = await this.redingRepository.create(data);
 
     if (!reading) {
@@ -38,18 +52,36 @@ export class ReadingService {
     return reading;
   }
 
-  public async updateReading(data: IUpdateReadingRequest): Promise<Reading> {
-    const reading = await this.redingRepository.updateById(data);
+  public async updateReading({
+    userId,
+    ...data
+  }: IUpdateReadingRequest): Promise<Reading> {
+    const reading = await this.findReadingById({ id: data.id });
 
-    if (!reading) {
+    if (reading.user.id != userId) {
+      throw new UnauthorizedException('Usuário não autorizado.');
+    }
+
+    const updatedReading = await this.redingRepository.updateById(data);
+
+    if (!updatedReading) {
       throw new BadRequestException('A leitura não foi alterada corretamente.');
     }
 
-    return reading;
+    return updatedReading;
   }
 
-  public async deleteReading(data: IDeleteReadingRequest): Promise<boolean> {
-    const isDeleted = await this.redingRepository.deleteById(data.id);
+  public async deleteReading({
+    id,
+    userId,
+  }: IDeleteReadingRequest): Promise<boolean> {
+    const reading = await this.findReadingById({ id });
+
+    if (reading.user.id != userId) {
+      throw new UnauthorizedException('Usuário não autorizado.');
+    }
+
+    const isDeleted = await this.redingRepository.deleteById(id);
 
     return isDeleted;
   }

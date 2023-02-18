@@ -1,4 +1,5 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { CurrentUser } from '../auth/guards/currentUser.guard';
 import { IActivateUserInput } from './dto/activate-user.input';
 import { ICreateUserInput } from './dto/create-user.input';
 import { IDeleteUserInput } from './dto/delete-user.input';
@@ -38,12 +39,21 @@ export class UserResolver {
   }
 
   @Mutation(() => User)
-  async updateUser(@Args('input') input: IUpdateUserInput): Promise<User> {
-    return this.userService.updateUser(input);
+  async updateUser(
+    @Args('input') input: IUpdateUserInput,
+    @CurrentUser() currentUser: User,
+  ): Promise<User> {
+    return this.userService.updateUser({
+      currentUserId: currentUser.id,
+      ...input,
+    });
   }
 
   @Mutation(() => Boolean)
-  async deleteUser(@Args('input') input: IDeleteUserInput): Promise<boolean> {
-    return this.userService.deleteUser(input);
+  async deleteUser(
+    @Args('input') input: IDeleteUserInput,
+    @CurrentUser() user: User,
+  ): Promise<boolean> {
+    return this.userService.deleteUser({ ...input, currentUserId: user.id });
   }
 }

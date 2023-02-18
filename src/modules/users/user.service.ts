@@ -4,6 +4,7 @@ import {
   Injectable,
   InternalServerErrorException,
   NotFoundException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { Repository } from '../global/constants/repositories';
 import { IActivateUserRequest } from './dto/activate-user.request';
@@ -83,11 +84,11 @@ export class UserService {
   }
 
   public async updateUser(data: IUpdateUserRequest): Promise<User> {
-    const foundUser = await this.userRepository.findById(data.id);
-
-    if (!foundUser) {
-      throw new BadRequestException('Usuário não encontrado.');
+    if (data.currentUserId != data.id) {
+      throw new UnauthorizedException('Usuário não autorizado.');
     }
+
+    await this.findUserById({ id: data.id });
 
     const user = await this.userRepository.updateById(data);
 
@@ -101,11 +102,11 @@ export class UserService {
   }
 
   public async deleteUser(data: IDeleteUserRequest): Promise<boolean> {
-    const foundUser = await this.userRepository.findById(data.id);
-
-    if (!foundUser) {
-      throw new BadRequestException('Usuário não encontrado.');
+    if (data.currentUserId != data.id) {
+      throw new UnauthorizedException('Usuário não autorizado.');
     }
+
+    await this.findUserById({ id: data.id });
 
     await this.userRepository.deleteById(data.id);
 
